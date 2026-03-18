@@ -74,6 +74,8 @@ function clickOperators(content) {
     operator = content;
     display.textContent = `${operand1} ${operator}`;
   }
+
+  dotButton.disabled = false;
 }
 
 function clickLeftArrow() {
@@ -84,6 +86,10 @@ function clickLeftArrow() {
       operand1 = operand1.slice(0, operand1.length - 1);
     }
     display.textContent = `${operand1}`;
+
+    if (!operand1.includes(".")) {
+      dotButton.disabled = false;
+    }
 
   } else if (operator !== "" && operand2 === "0") {
     operator = "";
@@ -96,6 +102,10 @@ function clickLeftArrow() {
     } else {
       operand2 = operand2.slice(0, operand2.length - 1);
       display.textContent = `${operand1} ${operator} ${operand2}`;
+    }
+
+    if (!operand2.includes(".")) {
+      dotButton.disabled = false;
     }
   }
 }
@@ -118,9 +128,11 @@ function clickEqual() {
 function clickDot() {
   if (operator === "" && operand2 === "0") {
     operand1 += ".";
+    dotButton.disabled = true;
     display.textContent = `${operand1}`;
   } else if (operator !== "") {
     operand2 += ".";
+    dotButton.disabled = true;
     display.textContent = `${operand1} ${operator} ${operand2}`;
   }
 }
@@ -150,6 +162,7 @@ let operator = "";
 
 const display = document.querySelector(".display");
 const buttons = document.querySelectorAll(".btn");
+const dotButton = Array.from(buttons).find(button => button.textContent === ".");
 
 buttons.forEach(button => {
   button.addEventListener("click", clickButton);
