@@ -4,7 +4,7 @@ const TIMES = "×";
 const DIVIDE = "÷";
 const LEFT_ARROW = "←";
 const CLEAR = "C";
-const OPERATORS = "+−×÷";
+const OPERATORS = "+−×÷+-*/";
 const EQUAL = "=";
 const DOT = ".";
 const NUMBERS = "0123456789";
@@ -141,24 +141,31 @@ function clickDot() {
   }
 }
 
-function clickButton(e) {
-    const content = e.target.textContent;
-
-    if (NUMBERS.includes(content)) {
-      clickNumbers(content);
-    } else if (OPERATORS.includes(content)) {
-      clickOperators(content);
-    } else if (content === LEFT_ARROW) {
-      clickLeftArrow();
-    } else if (content === CLEAR) {
-      clickClear();
-    } else if (content === EQUAL) {
-      clickEqual();
-    } else if (content === DOT) {
-      clickDot();
-    }
+function action(content) {
+  if (NUMBERS.includes(content)) {
+    clickNumbers(content);
+  } else if (OPERATORS.includes(content)) {
+    clickOperators(content);
+  } else if (content === LEFT_ARROW) {
+    clickLeftArrow();
+  } else if (content === CLEAR) {
+    clickClear();
+  } else if (content === EQUAL || content === "Enter") {
+    clickEqual();
+  } else if (content === DOT) {
+    clickDot();
+  }
 }
 
+function clickButton(e) {
+  const content = e.target.textContent;
+  action(content);
+}
+
+function pressKeydown(e){
+  const content = e.key;
+  action(content);
+}
 
 let operand1 = "0";
 let operand2 = "0";
@@ -171,5 +178,7 @@ const dotButton = Array.from(buttons).find(button => button.textContent === ".")
 buttons.forEach(button => {
   button.addEventListener("click", clickButton);
 });
+
+document.addEventListener("keydown", pressKeydown);
 
 display.textContent = `${operand1}`;
