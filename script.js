@@ -23,7 +23,7 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
-  return num1 / num2;
+  return (num1 / num2).toFixed(3);
 }
 
 function operate(operand1, operand2, operator) {
@@ -37,8 +37,10 @@ function operate(operand1, operand2, operator) {
     result = substract(num1, num2);
   } else if (operator === TIMES) {
     result = multiply(num1, num2);
-  } else if (operator === DIVIDE) {
+  } else if (operator === DIVIDE && num2 !== 0) {
     result = divide(num1, num2);
+  } else if (operator === DIVIDE && num2 === 0) {
+    return "안돼";
   }
 
   return result;
