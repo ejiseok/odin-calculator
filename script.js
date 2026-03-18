@@ -63,13 +63,13 @@ function clickNumbers(inputNum) {
 }
 
 function clickOperators(content) {
-  if (operand2 === "0") {
+  if (operator === "") {
     operator = content;
     display.textContent = `${operand1} ${operator}`;
   } else {
-    operator = content;
     operand1 = operate(operand1, operand2, operator);
     operand2 = "0";
+    operator = content;
     display.textContent = `${operand1} ${operator}`;
   }
 }
