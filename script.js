@@ -46,57 +46,61 @@ function operate(operand1, operand2, operator) {
 
 function clickNumbers(inputNum) {
   if (operator === "") {
-    operand1 = parseInt(operand1 + inputNum).toString();
-    display.textContent = operand1;
+    if (operand1 === "0") {
+      operand1 = inputNum;
+    } else {
+      operand1 += inputNum;
+    }
+    display.textContent = `${operand1}`;
   } else {
-    operand2 = parseInt(operand2 + inputNum).toString();
+    if (operand2 === "0") {
+      operand2 = inputNum;
+    } else {
+      operand2 += inputNum;
+    }
     display.textContent = `${operand1} ${operator} ${operand2}`;  
   }
 }
 
 function clickOperators(content) {
-  if (operand2 === 0) {
+  if (operand2 === "0") {
     operator = content;
     display.textContent = `${operand1} ${operator}`;
   } else {
-    operand1 = operate(operand1, operand2, operator);
-    operand2 = 0;
     operator = content;
+    operand1 = operate(operand1, operand2, operator);
+    operand2 = "0";
     display.textContent = `${operand1} ${operator}`;
   }
 }
 
 function clickLeftArrow() {
-  if (operator === "" && operand2 === 0) {
-    let num = operand1.toString();
-    num = num.slice(0, num.length - 1);
-    if (num === "") {
-      operand1 = 0;
+  if (operator === "" && operand2 === "0") {
+    if (operand1.slice(0, operand1.length - 1) === "") {
+      operand1 = "0";
     } else {
-      operand1 = Number(num);
+      operand1 = operand1.slice(0, operand1.length - 1);
     }
     display.textContent = `${operand1}`;
 
-  } else if (operator !== "" && operand2 === 0) {
+  } else if (operator !== "" && operand2 === "0") {
     operator = "";
     display.textContent = `${operand1}`;
 
-  } else if (operand2 !== 0) {
-    let num = operand2.toString();
-    num = num.slice(0, num.length - 1);
-    if (num === "") {
+  } else if (operand2 !== "0") {
+    if (operand2.slice(0, operand2.length - 1) === "") {
       operand2 = 0;
       display.textContent = `${operand1} ${operator}`;
     } else {
-      operand2 = Number(num);
+      operand2 = operand2.slice(0, operand2.length - 1);
       display.textContent = `${operand1} ${operator} ${operand2}`;
     }
   }
 }
 
 function clickClear() {
-  operand1 = 0;
-  operand2 = 0;
+  operand1 = "0";
+  operand2 = "0";
   operator = "";
 
   display.textContent = `${operand1}`;
@@ -110,7 +114,13 @@ function clickEqual() {
 }
 
 function clickDot() {
-  
+  if (operator === "" && operand2 === "0") {
+    operand1 += ".";
+    display.textContent = `${operand1}`;
+  } else if (operator !== "") {
+    operand2 += ".";
+    display.textContent = `${operand1} ${operator} ${operand2}`;
+  }
 }
 
 function clickButton(e) {
@@ -132,8 +142,8 @@ function clickButton(e) {
 }
 
 
-let operand1 = 0;
-let operand2 = 0;
+let operand1 = "0";
+let operand2 = "0";
 let operator = "";
 
 const display = document.querySelector(".display");
