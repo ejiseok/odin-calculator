@@ -65,6 +65,10 @@ function clickNumbers(inputNum) {
 }
 
 function clickOperators(content) {
+  if (operator !== "" && operand2 === "0") {
+    return;
+  }
+
   if (operator === "") {
     operator = content;
     display.textContent = `${operand1} ${operator}`;
